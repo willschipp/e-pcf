@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="classpath:/META-INF/spring/integration/file-context.xml"/>
+
+	<int-jms:outbound-channel-adapter
+		id="outboundJmsChannel" 
+		channel="outbound.channel"
+		connection-factory="connectionFactory"
+		destination="outbound.queue"/>
+
+	<jee:jndi-lookup id="outbound.queue" jndi-name="jms/outbound.queue" expected-type="javax.jms.Queue"/>
+
+	<jee:jndi-lookup id="connectionFactory" jndi-name="jms/connectionFactory" expected-type="javax.jms.ConnectionFactory"/>
+
+</beans>

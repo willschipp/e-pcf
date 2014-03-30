@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<int-jms:message-driven-channel-adapter
+		connection-factory="connectionFactory"
+		channel="topic.inbound.channel"
+		destination="topic.inbound"
+		pub-sub-domain="true"/>
+
+	<int:channel id="topic.inbound.channel"/>
+	
+	<int:logging-channel-adapter channel="topic.inbound.channel" log-full-message="true"/>
+
+	<jee:jndi-lookup id="topic.inbound" jndi-name="jms/inbound.topic" expected-type="javax.jms.Topic"/>
+
+</beans>
